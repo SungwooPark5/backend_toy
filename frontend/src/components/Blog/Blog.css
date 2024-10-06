@@ -1,0 +1,140 @@
+.blog-container {
+  display: flex;
+  align-items: start;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.left-container,
+.right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 50%;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+}
+
+.left-container {
+  height: auto;
+}
+
+.right-container {
+  min-height: calc(100vh - 60px - 32px);
+  padding-top: 25px;
+
+  @media (max-width: 900px) {
+    padding-top: 100px;
+  }
+}
+
+.form {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 500px) {
+    width: 80%;
+  }
+}
+
+.w-100 {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  position: relative;
+}
+
+.w-50 {
+  width: 50%;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+.w-100 input,
+.w-50 input {
+  width: 100%;
+  height: 30px;
+  border: none;
+  box-shadow: 0 0.5px 3px grey;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.w-100 button {
+  position: absolute;
+  right: 0;
+  margin: 5px;
+}
+
+.blog-container h2 {
+  width: 100%;
+  display: flex;
+  font-size: 1.9rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  width: 70%;
+  height: 80px;
+  margin: 10px;
+  border-radius: 3px;
+  border: 1.5px solid black;
+  padding: 10px;
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 90%;
+  }
+}
+
+.list button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.list br {
+  display: none;
+
+  @media (max-width: 600px) {
+    display: block;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0 0 10px grey;
+  padding: 20px;
+  cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
+}
+
+.modal p {
+  line-height: 1.7;
+}
