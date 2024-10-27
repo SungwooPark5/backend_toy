@@ -23,4 +23,4 @@ ALTER table posts add column content text;
 
 insert into posts values(1, "테스트", 0, 0, "2024-10-08", "Park", "테스트테스트");
 
-select * from photos; 
+select * from photos;
