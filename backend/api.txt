@@ -1,0 +1,20 @@
+// 웹사이트 기능
+ 
+Gallery:-목록                      /gallery
+
+Blog:   -게시글 목록                /blog
+        -게시글 내용 보기           /blog/:postId
+        -게시글 작성하기            /blog/write
+        -게시글 반응하기            /blog/:postId/edit
+        -게시글 삭제하기            /blog/:postId/delete
+
+
+// Rest API
+
+Gallery:-목록 가져오기(GET)        /gallery
+
+Blog:   -게시글 목록 가져오기(GET)  /blog
+        -게시글 내용 보기(GET)      /blog/:postId
+        -게시글 작성하기(POST)      /blog
+        -게시글 반응하기(PUT)       /blog/:postId
+        -게시글 삭제하기(DELETE)    /blog/:postId
