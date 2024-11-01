@@ -10,6 +10,9 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const PORT = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
+const testRoutes = require('./routes/testRoutes');
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 require('dotenv').config();
 
@@ -23,8 +26,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware
+app.use(bodyParser.json());
+
+// Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/test', testRoutes);
+
+// Error middleware
+app.use(errorMiddleware);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,6 +53,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
