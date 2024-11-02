@@ -10,8 +10,13 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const PORT = process.env.PORT || 3000;
+
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const testRoutes = require('./routes/testRoutes');
+const postRoutes = require('./routes/postRoutes');
+const galleryRoutes = require('./routes/galleryRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
 require('dotenv').config();
@@ -24,6 +29,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
@@ -34,6 +41,8 @@ app.use(bodyParser.json());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/test', testRoutes);
+app.use('/blog', postRoutes);
+app.use('/gallery', galleryRoutes);
 
 // Error middleware
 app.use(errorMiddleware);
