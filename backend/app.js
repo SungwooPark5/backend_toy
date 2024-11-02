@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -13,6 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
+var swaggerJsdoc = require('swagger-jsdoc');
+var swaggerUi = require('swagger-ui-express');
 
 const testRoutes = require('./routes/testRoutes');
 const postRoutes = require('./routes/postRoutes');
@@ -34,12 +35,38 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
+// swagger setting
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Blog API',
+      description: 'Blog API Information',
+      contact: {
+        name: 'Park',
+        url: 'https://github.com/SungwooPark5',
+        email: "sungwoopark52@gmail.com"
+      },
+      servers: [
+        {
+          url: 'http://localhost:3000'
+        }
+      ]
+    }
+  },
+  apis: ['./routes/*.js']
+};
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", 
+  swaggerUi.serve, 
+  swaggerUi.setup(specs)
+);
+
 // Middleware
 app.use(bodyParser.json());
 
 // Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/test', testRoutes);
 app.use('/blog', postRoutes);
 app.use('/gallery', galleryRoutes);
