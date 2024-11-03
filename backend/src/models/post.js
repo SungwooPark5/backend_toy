@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const db = require('../../config/database');
 
 exports.getAllPosts = function(callback){
     db.query('SELECT * FROM posts', callback)
