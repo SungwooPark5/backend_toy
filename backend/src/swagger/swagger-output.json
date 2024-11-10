@@ -18,17 +18,25 @@
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "description": "home html을 반환합니다.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
     "/blog/": {
       "get": {
-        "description": "",
+        "tags":["Blog"],
+        "description": "모든 블로그 글을 반환합니다.",
         "responses": {
           "200": {
             "description": "OK"
@@ -36,7 +44,8 @@
         }
       },
       "post": {
-        "description": "",
+        "tags":["Blog"],
+        "description": "블로그 글을 생성하여 DB에 저장합니다.",
         "parameters": [
           {
             "name": "body",
@@ -75,7 +84,8 @@
     },
     "/blog/{id}": {
       "get": {
-        "description": "",
+        "tags":["Blog"],
+        "description": "ID에 해당하는 블로그 글을 반환합니다.",
         "parameters": [
           {
             "name": "id",
@@ -91,7 +101,8 @@
         }
       },
       "put": {
-        "description": "",
+        "tags":["Blog"],
+        "description": "블로그 글을 수정합니다.",
         "parameters": [
           {
             "name": "id",
@@ -134,7 +145,8 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags":["Blog"],
+        "description": "ID에 해당하는 블로그 글을 삭제합니다.",
         "parameters": [
           {
             "name": "id",
@@ -152,7 +164,8 @@
     },
     "/gallery/": {
       "get": {
-        "description": "",
+        "tags":["Gallery"],
+        "description": "모든 갤러리 이미지를 반환합니다.",
         "responses": {
           "200": {
             "description": "OK"
@@ -162,7 +175,8 @@
     },
     "/gallery/{id}": {
       "get": {
-        "description": "",
+        "tags":["Gallery"],
+        "description": "ID에 해당하는 사진을 반환합니다.",
         "parameters": [
           {
             "name": "id",

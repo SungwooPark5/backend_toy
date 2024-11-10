@@ -1,3 +1,6 @@
+/* 
+  실행 시 swagger API 문서가 초기화되므로 최초의 한 번만 실행
+*/
 const swaggerAutogen = require('swagger-autogen')();
 const PORT = process.env.PORT || 3000;
 
