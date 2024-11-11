@@ -4,10 +4,13 @@ import { Link, Element } from 'react-scroll';
 import Gallery from './components/Gallery/Gallery';
 import Blog from './components/Blog/Blog';
 
+import {getAllGalleryData} from './data-loader';
+
 
 function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [galleryDatas, setGalleryData] = useState([]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -16,6 +19,19 @@ function App() {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
+  useEffect(() => {
+    const fetchGalleryDatas = async ()=>{
+      try{
+        const result = await getAllGalleryData();
+        setGalleryData(result);
+      } catch (error){
+        console.log('Error fetching gallery data:', error);
+      }
+    };
+
+    fetchGalleryDatas();
+  },[]);
 
   return (
     <>
@@ -47,7 +63,8 @@ function App() {
         </div>
       </nav>
 
-      <Element name="gallery" className="section"><Gallery /></Element>
+      <Element name="gallery" className="section"><Gallery
+        galleryDatas={galleryDatas}/></Element>
       <Element name="blog" className="section"><Blog /></Element>
     </>
   );
