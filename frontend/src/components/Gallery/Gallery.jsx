@@ -1,9 +1,6 @@
 import "./Gallery.css";
 
-function Gallery(props) {
-
-  const galleryDatas = props.galleryDatas;
-
+function Gallery({galleryDatas}) {
   return (
     <>
       <div className="gallery-container">

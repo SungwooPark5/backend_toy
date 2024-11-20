@@ -4,13 +4,15 @@ import { Link, Element } from 'react-scroll';
 import Gallery from './components/Gallery/Gallery';
 import Blog from './components/Blog/Blog';
 
-import {getAllGalleryData} from './data-loader';
+import {getAllGalleryData,getAllBlogData} from './api-client';
 
 
 function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [galleryDatas, setGalleryData] = useState([]);
+
+  let [blogDatas, setBlogData] = useState([]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -30,8 +32,19 @@ function App() {
       }
     };
 
+    const fetchBlogDatas = async ()=>{
+      try{
+        const result = await getAllBlogData();
+        setBlogData(result);
+      } catch (error){
+        console.log('Error fetching blog data:', error);
+      }
+    };
+
     fetchGalleryDatas();
+    fetchBlogDatas();
   },[]);
+
 
   return (
     <>
@@ -65,7 +78,8 @@ function App() {
 
       <Element name="gallery" className="section"><Gallery
         galleryDatas={galleryDatas}/></Element>
-      <Element name="blog" className="section"><Blog /></Element>
+      <Element name="blog" className="section"><Blog 
+        blogDatas={blogDatas} setBlogData={setBlogData}/></Element>
     </>
   );
 }

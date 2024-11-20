@@ -1,35 +1,10 @@
 import "./Blog.css";
 import { useState } from "react";
+import {postBlogData,deleteBlogData,updateBlogData} from '../../api-client';
 
-function Blog() {
-  let [list, list변경] = useState([
-    [
-      "세계의 귀여운 고양이 종류",
-      "이예나",
-      "2024.03.03",
-      "브리티시쇼트헤어, 아메리칸쇼트헤어, 라가머핀, 터키시앙고라, 러시안블루, 페르시안고양이, 노르웨이숲, 시베리안숲, 먼치킨, 버만, 버미즈, 뱅갈 등 넘나 많다. 이 중에서 러시안 블루가 가장 귀염뽀짝하다고 할 수 있다.",
-      0,
-      0,
-    ],
+function Blog(props) {
 
-    [
-      "고양이가 절대 먹으면 안 되는 음식",
-      "이예나",
-      "2024.03.04",
-      "날생선, 초콜릿, 강아지 사료, 유제품, 카페인, 견과류 등등등 굉장히 많다. 고양이가 맞나 싶다.",
-      0,
-      0,
-    ],
-
-    [
-      "고양이가 우는 이유",
-      "이예나",
-      "2024.03.05",
-      "야행성 동물인 고양이는 낮에는 내내 잠을 자고, 밤이 되면 활동을 시작한다. 우다다다를 시전하며 신난 고양이는 낮에 비축한 에너지를 폭발적으로 발산한다.",
-      0,
-      0,
-    ],
-  ]);
+  let [list, list변경] = [props.blogDatas, props.setBlogData];
 
   let [modal, setModal] = useState(false);
   let [modalIndex, setModalIndex] = useState("");
@@ -79,7 +54,7 @@ function Blog() {
           </div>
           <div className="w-100">
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (
                   제목입력 === "" ||
                   작성자입력 === "" ||
@@ -89,14 +64,16 @@ function Blog() {
                   alert("내용을 입력하세요");
                 } else {
                   const copylist = [...list];
-                  copylist.unshift([
-                    제목입력,
-                    작성자입력,
-                    작성일자입력,
-                    내용입력,
-                    0,
-                    0,
-                  ]);
+                  const newList = {
+                    title: 제목입력,
+                    writer: 작성자입력,
+                    upload_date: 작성일자입력,
+                    content: 내용입력,
+                    likes: 0,
+                    dislikes: 0,
+                  }
+                  copylist.unshift(newList);
+                  postBlogData(newList);
                   list변경(copylist);
                 }
               }}
@@ -137,40 +114,44 @@ function List(props) {
     >
       <h4>
         {/* 제목 */}
-        {props.list[props.index][0]}&nbsp;&nbsp;
+        {props.list[props.index].title}&nbsp;&nbsp;
         {/* 따봉 */}
         <span
           onClick={(e) => {
             const copylist = [...props.list];
-            copylist[props.index][4] += 1;
+            copylist[props.index].likes += 1;
             props.list변경(copylist);
+            console.log(copylist[props.index]);
+            updateBlogData(props.list[props.index].id, copylist[props.index]);
             e.stopPropagation();
           }}
         >
           👍
         </span>
-        {props.list[props.index][4]}&nbsp;&nbsp;
+        {props.list[props.index].likes}&nbsp;&nbsp;
         {/* 유유 */}
         <span
           onClick={(e) => {
             const copylist = [...props.list];
-            copylist[props.index][5] += 1;
+            copylist[props.index].dislikes += 1;
             props.list변경(copylist);
+            updateBlogData(copylist[props.index].id, copylist[props.index]);
             e.stopPropagation();
           }}
         >
           👎
         </span>
-        {props.list[props.index][5]}
+        {props.list[props.index].dislikes}
       </h4>
       {/* 작성일자 */}
-      <p>{props.list[props.index][2]}</p>
+      <p>{props.list[props.index].upload_date}</p>
 
       <button
         onClick={(e) => {
           const copylist = [...props.list];
           copylist.splice(props.index, 1);
           props.list변경(copylist);
+          deleteBlogData(props.list[props.index].id);
           e.stopPropagation();
         }}
       >
@@ -188,12 +169,41 @@ function Modal(props) {
         props.setModal(false);
       }}
     >
-      <h3>{props.list[props.modalIndex][0]}</h3>
-      <h4>{props.list[props.modalIndex][1]}</h4>
-      <h4>{props.list[props.modalIndex][2]}</h4>
-      <p>{props.list[props.modalIndex][3]}</p>
+      <h3>{props.list[props.modalIndex].title}</h3>
+      <h4>{props.list[props.modalIndex].writer}</h4>
+      <h4>{props.list[props.modalIndex].upload_date}</h4>
+      <p>{props.list[props.modalIndex].content}</p>
     </div>
   );
 }
+
+// [
+//   [
+//     "세계의 귀여운 고양이 종류",
+//     "이예나",
+//     "2024.03.03",
+//     "브리티시쇼트헤어, 아메리칸쇼트헤어, 라가머핀, 터키시앙고라, 러시안블루, 페르시안고양이, 노르웨이숲, 시베리안숲, 먼치킨, 버만, 버미즈, 뱅갈 등 넘나 많다. 이 중에서 러시안 블루가 가장 귀염뽀짝하다고 할 수 있다.",
+//     0,
+//     0,
+//   ],
+
+//   [
+//     "고양이가 절대 먹으면 안 되는 음식",
+//     "이예나",
+//     "2024.03.04",
+//     "날생선, 초콜릿, 강아지 사료, 유제품, 카페인, 견과류 등등등 굉장히 많다. 고양이가 맞나 싶다.",
+//     0,
+//     0,
+//   ],
+
+//   [
+//     "고양이가 우는 이유",
+//     "이예나",
+//     "2024.03.05",
+//     "야행성 동물인 고양이는 낮에는 내내 잠을 자고, 밤이 되면 활동을 시작한다. 우다다다를 시전하며 신난 고양이는 낮에 비축한 에너지를 폭발적으로 발산한다.",
+//     0,
+//     0,
+//   ],
+// ]
 
 export default Blog;
